@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ремонт квартир под ключ | Премиум-качество</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a; background: #fff; line-height: 1.5; }
+        h1, h2, h3 { font-weight: 700; line-height: 1.2; }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; border: none; font-family: inherit; }
+        img { max-width: 100%; display: block; }
+
+        :root {
+            --navy: #0B1C33;
+            --navy-light: #1A2E4A;
+            --graphite: #2C2C2C;
+            --light-gray: #F5F7FA;
+            --accent: #E8C85A;
+            --white: #FFFFFF;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        header { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid #eee; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .nav { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        .logo { font-size: 24px; font-weight: 800; color: var(--navy); letter-spacing: -0.5px; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 30px; font-size: 15px; font-weight: 500; }
+        .nav-links a:hover { color: var(--navy); opacity: 0.7; }
+        .btn { padding: 12px 28px; border-radius: 4px; font-weight: 600; font-size: 15px; transition: 0.3s; display: inline-block; }
+        .btn-primary { background: var(--navy); color: var(--white); }
+        .btn-primary:hover { background: var(--navy-light); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(11,28,51,0.2); }
+        .btn-outline { border: 2px solid var(--navy); color: var(--navy); background: transparent; }
+        .btn-outline:hover { background: var(--navy); color: var(--white); }
+        .btn-accent { background: var(--accent); color: var(--navy); }
+        .btn-accent:hover { background: #d4b34a; transform: translateY(-2px); }
+
+        .hero { padding: 160px 0 100px; background: linear-gradient(135deg, #fff 0%, #f0f4f9 100%); min-height: 90vh; display: flex; align-items: center; }
+        .hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .hero-text h1 { font-size: 56px; color: var(--navy); margin-bottom: 24px; letter-spacing: -1.5px; }
+        .hero-text p { font-size: 18px; color: #555; margin-bottom: 40px; max-width: 480px; }
+        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+        .hero-image { position: relative; z-index: 0; }
+        .hero-image img { border-radius: 8px; box-shadow: var(--shadow); width: 100%; height: 500px; object-fit: cover; }
+        .hero-image::before { content: ''; position: absolute; top: -20px; left: -20px; width: 100%; height: 100%; border: 2px solid var(--navy); border-radius: 8px; z-index: -1; }
+
+        .services { padding: 100px 0; background: var(--white); }
+        .section-title { text-align: center; font-size: 40px; color: var(--navy); margin-bottom: 16px; }
+        .section-subtitle { text-align: center; color: #666; margin-bottom: 60px; font-size: 18px; }
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .service-card { background: var(--light-gray); padding: 40px 30px; border-radius: 8px; transition: 0.3s; border: 1px solid transparent; }
+        .service-card:hover { background: var(--white); border-color: var(--navy); box-shadow: var(--shadow); transform: translateY(-5px); }
+        .service-card h3 { font-size: 22px; color: var(--navy); margin-bottom: 16px; }
+        .service-card p { color: #666; font-size: 15px; margin-bottom: 20px; }
+        .price-tag { font-weight: 700; color: var(--navy); font-size: 20px; display: block; margin-bottom: 20px; }
+
+        .before-after { padding: 100px 0; background: var(--navy); color: var(--white); }
+        .before-after .section-title { color: var(--white); }
+        .before-after .section-subtitle { color: #aaa; }
+        .slider-container { position: relative; width: 100%; max-width: 900px; margin: 0 auto; overflow: hidden; border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); user-select: none; }
+        .slider-img { width: 100%; height: 500px; object-fit: cover; display: block; }
+        .slider-before { position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; }
+        .slider-before img { height: 100%; max-width: none; object-fit: cover; }
+        .slider-handle { position: absolute; top: 0; left: 50%; width: 4px; height: 100%; background: var(--accent); cursor: ew-resize; transform: translateX(-50%); z-index: 10; touch-action: none; }
+        .slider-handle::after { content: '↔'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--accent); color: var(--navy); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+        .about { padding: 100px 0; background: var(--light-gray); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .about-text h2 { font-size: 40px; color: var(--navy); margin-bottom: 24px; }
+        .about-text p { color: #555; margin-bottom: 20px; font-size: 16px; }
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+        .stat-item h3 { font-size: 36px; color: var(--navy); }
+        .stat-item p { font-size: 14px; color: #666; }
+
+        .reviews { padding: 100px 0; background: var(--white); }
+        .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .review-card { background: var(--light-gray); padding: 40px; border-radius: 8px; border-left: 4px solid var(--navy); }
+        .review-card p { font-style: italic; color: #444; margin-bottom: 20px; }
+        .review-author { font-weight: 700; color: var(--navy); }
+
+        .calculator { padding: 100px 0; background: var(--graphite); color: var(--white); }
+        .calculator .section-title { color: var(--white); }
+        .calc-box { background: var(--white); color: var(--graphite); max-width: 700px; margin: 0 auto; padding: 50px; border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .calc-group { margin-bottom: 24px; }
+        .calc-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 15px; }
+        .calc-group select, .calc-group input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; background: #fafafa; }
+        .calc-group select:focus, .calc-group input:focus { outline: 2px solid var(--navy); }
+        .calc-result { margin-top: 30px; padding-top: 30px; border-top: 2px solid #eee; text-align: center; }
+        .calc-result .total { font-size: 36px; font-weight: 800; color: var(--navy); display: block; margin: 10px 0 20px; }
+        .calc-disclaimer { font-size: 12px; color: #999; margin-top: 15px; }
+
+        footer { padding: 40px 0; background: var(--navy); color: #aaa; text-align: center; font-size: 14px; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: #fff; padding: 40px; border-radius: 8px; max-width: 400px; width: 90%; text-align: center; position: relative; }
+        .modal-content h3 { color: var(--navy); margin-bottom: 15px; }
+        .modal-content p { margin-bottom: 20px; color: #666; }
+        .modal-content input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #999; }
+
+        @media (max-width: 992px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-text h1 { font-size: 40px; }
+            .hero-text p { margin: 0 auto 30px; }
+            .hero-buttons { justify-content: center; }
+            .services-grid { grid-template-columns: 1fr; }
+            .reviews-grid { grid-template-columns: 1fr; }
+            .about-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+        @media (max-width: 576px) {
+            .hero-text h1 { font-size: 32px; }
+            .calc-box { padding: 25px; }
+            .slider-img { height: 300px; }
+            .section-title { font-size: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav">
+            <div class="logo">РЕМ<span>ОНТ</span>ПРО</div>
+            <div class="nav-links">
+                <a href="#services">Услуги</a>
+                <a href="#portfolio">Портфолио</a>
+                <a href="#about">О нас</a>
+                <a href="#reviews">Отзывы</a>
+                <a href="#calculator">Калькулятор</a>
+            </div>
+            <button class="btn btn-primary" onclick="openModal()">Вызвать замерщика</button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Ремонт квартир <br>под ключ за 45 дней</h1>
+                <p>Фиксированная смета, договор, гарантия 5 лет. Работаем без предоплаты и скрытых платежей. Ваш идеальный ремонт начинается здесь.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="document.getElementById('calculator').scrollIntoView({behavior: 'smooth'})">Рассчитать стоимость</button>
+                    <button class="btn btn-outline" onclick="openModal()">Получить консультацию</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ремонт квартиры">
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Какие виды ремонта мы делаем</h2>
+            <p class="section-subtitle">От косметического до эксклюзивного дизайнерского</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Косметический</h3>
+                    <p>Обновление интерьера без сложных работ. Обои, покраска, замена напольного покрытия.</p>
+                    <span class="price-tag">от 4 500 ₽/м²</span>
+                    <button class="btn btn-outline" onclick="document.getElementById('calculator').scrollIntoView({behavior: 'smooth'})">Рассчитать</button>
+                </div>
+                <div class="service-card">
+                    <h3>Капитальный</h3>
+                    <p>Полная перестройка с заменой коммуникаций, стяжкой, штукатуркой и электрикой.</p>
+                    <span class="price-tag">от 8 000 ₽/м²</span>
+                    <button class="btn btn-primary" onclick="document.getElementById('calculator').scrollIntoView({behavior: 'smooth'})">Рассчитать</button>
+                </div>
+                <div class="service-card">
+                    <h3>Дизайнерский</h3>
+                    <p>Реализация индивидуального проекта. Авторский надзор, сложные конструкции, премиум-материалы.</p>
+                    <span class="price-tag">от 14 000 ₽/м²</span>
+                    <button class="btn btn-outline" onclick="document.getElementById('calculator').scrollIntoView({behavior: 'smooth'})">Рассчитать</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="before-after" id="portfolio">
+        <div class="container">
+            <h2 class="section-title">Примеры наших работ</h2>
+            <p class="section-subtitle">Посмотрите, как мы превращаем обычные квартиры в дома мечты</p>
+            <div class="slider-container" id="slider">
+                <img class="slider-img" src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="После ремонта">
+                <div class="slider-before" id="before">
+                    <img id="beforeImg" src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="До ремонта">
+                </div>
+                <div class="slider-handle" id="handle"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container about-grid">
+            <div class="about-text">
+                <h2>О компании</h2>
+                <p>Мы — команда профессионалов с опытом более 12 лет. За это время мы отремонтировали более 850 квартир. Наша главная цель — сделать ремонт прозрачным, предсказуемым и комфортным для вас.</p>
+                <p>Мы не используем труднодоступные материалы и всегда согласовываем каждую деталь. Ваш ремонт — под нашим личным контролем.</p>
+                <div class="stats">
+                    <div class="stat-item"><h3>850+</h3><p>Квартир отремонтировано</p></div>
+                    <div class="stat-item"><h3>12 лет</h3><p>Опыта на рынке</p></div>
+                    <div class="stat-item"><h3>5 лет</h3><p>Гарантия на работы</p></div>
+                    <div class="stat-item"><h3>0 ₽</h3><p>Предоплата</p></div>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Команда" style="border-radius: 8px; box-shadow: var(--shadow);">
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews" id="reviews">
+        <div class="container">
+            <h2 class="section-title">Отзывы наших клиентов</h2>
+            <p class="section-subtitle">Более 98% клиентов рекомендуют нас друзьям</p>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <p>"Делали ремонт в двушке. Сделали быстро, качественно, уложились в смету. Отдельное спасибо за чистоту после работы!"</p>
+                    <div class="review-author">Анна Петрова</div>
+                </div>
+                <div class="review-card">
+                    <p>"Профессионалы своего дела. Помогли с дизайном, подобрали материалы. Ремонт сдали точно в срок. Рекомендую!"</p>
+                    <div class="review-author">Сергей Иванов</div>
+                </div>
+                <div class="review-card">
+                    <p>"Боялась начинать ремонт, но ребята все объяснили. Работали аккуратно. Результат превзошел ожидания!"</p>
+                    <div class="review-author">Елена Смирнова</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="calculator" id="calculator">
+        <div class="container">
+            <h2 class="section-title">Калькулятор стоимости ремонта</h2>
+            <p class="section-subtitle" style="color:#aaa;">Узнайте примерную стоимость вашего проекта за 30 секунд</p>
+            <div class="calc-box">
+                <div class="calc-group">
+                    <label>Тип ремонта</label>
+                    <select id="calcType">
+                        <option value="4500">Косметический (4 500 ₽/м²)</option>
+                        <option value="8000" selected>Капитальный (8 000 ₽/м²)</option>
+                        <option value="14000">Дизайнерский (14 000 ₽/м²)</option>
+                    </select>
+                </div>
+                <div class="calc-group">
+                    <label>Площадь квартиры (м²)</label>
+                    <input type="number" id="calcArea" value="50" min="10" max="500">
+                </div>
+                <div class="calc-group">
+                    <label>Санузел (доп. работы)</label>
+                    <select id="calcBath">
+                        <option value="0">Без санузла</option>
+                        <option value="50000">Стандартный (50 000 ₽)</option>
+                        <option value="90000">Под ключ (90 000 ₽)</option>
+                    </select>
+                </div>
+                <div class="calc-result">
+                    <span>Примерная стоимость:</span>
+                    <span class="total" id="totalPrice">400 000 ₽</span>
+                    <button class="btn btn-primary" style="width:100%;" onclick="submitCalc()">Заказать точный расчет</button>
+                    <p class="calc-disclaimer">*Точная стоимость определяется после выезда замерщика</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 РемонтПро. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3>Оставьте заявку</h3>
+            <p>Мы перезвоним вам в течение 15 минут и ответим на все вопросы</p>
+            <input type="text" placeholder="Ваше имя" id="userName">
+            <input type="tel" placeholder="Ваш телефон" id="userPhone">
+            <button class="btn btn-primary" style="width:100%;" onclick="submitModal()">Жду звонка</button>
+        </div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const before = document.getElementById('before');
+        const beforeImg = document.getElementById('beforeImg');
+        const handle = document.getElementById('handle');
+        let isDragging = false;
+
+        function syncBeforeWidth() { beforeImg.style.width = slider.offsetWidth + 'px'; }
+        syncBeforeWidth();
+        window.addEventListener('resize', syncBeforeWidth);
+
+        function moveSlider(x) {
+            const rect = slider.getBoundingClientRect();
+            let position = ((x - rect.left) / rect.width) * 100;
+            position = Math.max(0, Math.min(100, position));
+            before.style.width = position + '%';
+            handle.style.left = position + '%';
+        }
+
+        handle.addEventListener('mousedown', () => isDragging = true);
+        window.addEventListener('mouseup', () => isDragging = false);
+        window.addEventListener('mousemove', (e) => { if (isDragging) moveSlider(e.clientX); });
+        handle.addEventListener('touchstart', () => isDragging = true);
+        window.addEventListener('touchend', () => isDragging = false);
+        window.addEventListener('touchmove', (e) => { if (isDragging) moveSlider(e.touches[0].clientX); });
+
+        const calcType = document.getElementById('calcType');
+        const calcArea = document.getElementById('calcArea');
+        const calcBath = document.getElementById('calcBath');
+        const totalPrice = document.getElementById('totalPrice');
+
+        function calculate() {
+            const total = parseInt(calcType.value) * (parseInt(calcArea.value) || 0) + parseInt(calcBath.value);
+            totalPrice.textContent = total.toLocaleString('ru-RU') + ' ₽';
+        }
+        calcType.addEventListener('change', calculate);
+        calcArea.addEventListener('input', calculate);
+        calcBath.addEventListener('change', calculate);
+        calculate();
+
+        const modal = document.getElementById('modal');
+        function openModal() { modal.classList.add('active'); }
+        function closeModal() { modal.classList.remove('active'); }
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        function submitModal() {
+            const name = document.getElementById('userName').value;
+            const phone = document.getElementById('userPhone').value;
+            if (!name || !phone) { alert('Пожалуйста, заполните все поля!'); return; }
+            alert('Спасибо, ' + name + '! Мы перезвоним вам на номер ' + phone + ' в ближайшее время.');
+            closeModal();
+        }
+
+        function submitCalc() {
+            alert('Ваш предварительный расчет: ' + totalPrice.textContent + '\n\nНаш менеджер свяжется с вами для уточнения деталей.');
+            openModal();
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
